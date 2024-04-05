@@ -1,6 +1,4 @@
-use std::ops::Deref;
-use std::{fmt, usize, };
-use std::marker::Sized;
+use std::{fmt, usize};
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, Copy, Clone)]
@@ -43,7 +41,6 @@ impl fmt::Display for Card {
 pub struct Player {
     pub name: String,
     pub hand: Vec<Card>,
-//    hand: HashMap<usize, Card>,
     pub status: Status,
     pub outcome: PlayerOutcome,
 }
@@ -52,7 +49,6 @@ pub struct Player {
 pub struct GameState {
     pub players: Vec<Player>,
     pub deck: Vec<Card>,
-//    deck: HashMap<usize, Card>,
 }
 
 fn random_card(deck: &[Card]) -> usize {

@@ -1,4 +1,5 @@
 mod start;
+mod game;
 
 use start::*;
 
