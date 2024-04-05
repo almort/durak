@@ -1,4 +1,6 @@
-use std::fmt;
+use std::ops::Deref;
+use std::{fmt, usize, };
+use std::marker::Sized;
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, Copy, Clone)]
@@ -18,7 +20,6 @@ impl fmt::Display for Suit {
 
 #[derive(Debug, Copy, Clone)]
 pub enum Status {
-    Idle,
     Atk,
     Def,
 }
@@ -27,7 +28,6 @@ pub enum Status {
 pub enum PlayerOutcome {
     Win,
     Lose,
-    Null,
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -41,18 +41,18 @@ impl fmt::Display for Card {
 
 #[derive(Debug, Clone)]
 pub struct Player {
-    name: String,
-    hand: Vec<Card>,
-    hand_length: u8,
-    status: Status,
-    outcome: PlayerOutcome,
+    pub name: String,
+    pub hand: Vec<Card>,
+//    hand: HashMap<usize, Card>,
+    pub status: Status,
+    pub outcome: PlayerOutcome,
 }
 
 #[derive(Debug, Clone)]
 pub struct GameState {
-    players: Vec<Player>,
-    deck: Vec<Card>,
-    deck_length: u8,
+    pub players: Vec<Player>,
+    pub deck: Vec<Card>,
+//    deck: HashMap<usize, Card>,
 }
 
 fn random_card(deck: &[Card]) -> usize {
@@ -81,27 +81,29 @@ fn generate_deck() -> Vec<Card> {
 
 }
 
-fn generate_hand(game: &GameState) -> Vec<Card> {
+fn generate_hand(game: &mut GameState) -> Vec<Card> {
     let mut x = 0;
     let mut hand = Vec::new();
+    let mut new_deck = game.deck.clone();
+
 
     while x < 6 {
         x += 1;
 
-        let random_card_index = random_card(&game.deck);
-        let card_hand: Card = game.deck[random_card_index];
+        let random_card_index = random_card(&new_deck);
+        let card_hand = new_deck[random_card_index];
 
         hand.push(card_hand);
-
-//        deck_remove(game, random_card_index);
+        new_deck.remove(random_card_index);
 
     }
+    game.deck = new_deck;
 
     hand
 
 }
 
-pub fn generate_players(names: Vec<String>, game: &GameState) -> Vec<Player> {
+fn generate_players(names: Vec<String>, game: &mut GameState) -> Vec<Player> {
 
     let mut players = Vec::new();
 
@@ -110,9 +112,8 @@ pub fn generate_players(names: Vec<String>, game: &GameState) -> Vec<Player> {
         let p = Player {
             name: name_from_vec,
             hand: generate_hand(game),
-            hand_length: 0,
-            status: Status::Idle,
-            outcome: PlayerOutcome::Null,
+            status: Status::Atk,
+            outcome: PlayerOutcome::Win,
         };
 
         players.push(p)
@@ -122,23 +123,19 @@ pub fn generate_players(names: Vec<String>, game: &GameState) -> Vec<Player> {
     players
 }
 
-pub fn game_setup() {
+pub fn game_setup() -> GameState {
     let names: Vec<String> = ["Toto".to_string(), "Porco".to_string()].to_vec();
 
     let mut game = GameState {
         players: Vec::new(),
         deck: generate_deck(),
-        deck_length: 0,
     };
 
-    game.players = generate_players(names, &game);
+    game.players = generate_players(names, &mut game);
 
     println!("{:?}", game.deck);
     println!("{:?}", game.players);
-    println!("{:?}", game.players);
+
+    game
 }
 
-//fn deck_remove(mut game: &GameState, i: usize) -> GameState {
-//    game.deck.remove(i);
-//    game
-//}

@@ -1,7 +1,11 @@
-use start::*;
-
 mod start;
 
+use start::*;
+
 fn main() {
-    game_setup();
+    let game = game_setup();
+
+    println!("{:?}", game.deck);
+    println!("{:?}", game.players);
+
 }

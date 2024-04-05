@@ -14,6 +14,7 @@ Getting distracted and being confused are my mantras so it will probably never b
 - [x] deck creation
 - [x] player's hand creation
 - [x] player's creation
+  - [x] removing card from deck when players are generated
 - [ ] making it responsive to user input
 - [ ] game logic
 - [ ] everything else
