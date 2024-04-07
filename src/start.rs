@@ -1,55 +1,7 @@
-use std::{fmt, usize};
+use std::usize;
 use rand::{thread_rng, Rng};
 
-#[derive(Debug, Copy, Clone)]
-pub enum Suit {
-    Hearts,
-    Diamonds,
-    Clubs,
-    Spades,
-}
-
-impl fmt::Display for Suit {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let a = self;
-        write!(f, "{}", a)
-    }
-}
-
-#[derive(Debug, Copy, Clone)]
-pub enum Status {
-    Atk,
-    Def,
-}
-
-#[derive(Debug, Copy, Clone)]
-pub enum PlayerOutcome {
-    Win,
-    Lose,
-}
-
-#[derive(Debug, Copy, Clone)]
-pub struct Card(u8, Suit);
-
-impl fmt::Display for Card {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f,"{}, {}", self.0, self.1)
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct Player {
-    pub name: String,
-    pub hand: Vec<Card>,
-    pub status: Status,
-    pub outcome: PlayerOutcome,
-}
-
-#[derive(Debug, Clone)]
-pub struct GameState {
-    pub players: Vec<Player>,
-    pub deck: Vec<Card>,
-}
+use crate::definitions::*;
 
 fn random_card(deck: &[Card]) -> usize {
     let mut rng = thread_rng();
@@ -108,8 +60,8 @@ fn generate_players(names: Vec<String>, game: &mut GameState) -> Vec<Player> {
         let p = Player {
             name: name_from_vec,
             hand: generate_hand(game),
-            status: Status::Atk,
-            outcome: PlayerOutcome::Win,
+            status: Status::None,
+            outcome: PlayerOutcome::None,
         };
 
         players.push(p)
@@ -128,9 +80,6 @@ pub fn game_setup() -> GameState {
     };
 
     game.players = generate_players(names, &mut game);
-
-    println!("{:?}", game.deck);
-    println!("{:?}", game.players);
 
     game
 }
