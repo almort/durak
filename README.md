@@ -22,6 +22,8 @@ be finished.
 - [x] player's hand creation
 - [x] player's creation
   - [x] removing card from deck when players are generated
-- [ ] making it responsive to user input
 - [ ] game logic
+~~- [x] random first-player draft~~
+  - [x] players order gets shuffled to generate players rotation
+  - [ ] turn logic
 - [ ] everything else

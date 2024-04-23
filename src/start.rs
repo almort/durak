@@ -1,7 +1,7 @@
 use std::usize;
 use rand::{thread_rng, Rng};
 
-use crate::definitions::*;
+use crate::{definitions::*, game};
 
 fn random_card(deck: &[Card]) -> usize {
     let mut rng = thread_rng();
@@ -81,6 +81,11 @@ pub fn game_setup() -> GameState {
 
     game.players = generate_players(names, &mut game);
 
+    println!("Unshuffled rotation: {:?}", &game.players);
+
+    game = game.generate_rotation();
+
     game
+
 }
 

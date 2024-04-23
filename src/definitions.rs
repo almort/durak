@@ -1,4 +1,5 @@
 use std::fmt;
+use rand::{seq::SliceRandom, thread_rng};
 
 
 #[derive(Debug, Copy, Clone)]
@@ -51,4 +52,13 @@ pub struct Player {
 pub struct GameState {
     pub players: Vec<Player>,
     pub deck: Vec<Card>,
+}
+
+impl GameState {
+    pub fn generate_rotation(mut self) -> Self {
+        let mut rng = thread_rng();
+
+        self.players.shuffle(&mut rng);
+        self
+    }
 }
