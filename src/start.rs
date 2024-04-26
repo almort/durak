@@ -1,12 +1,4 @@
-use std::usize;
-use rand::{thread_rng, Rng};
-
-use crate::{definitions::*, game};
-
-fn random_card(deck: &[Card]) -> usize {
-    let mut rng = thread_rng();
-    rng.gen_range(0..deck.len())
-}
+use crate::definitions::*;
 
 fn generate_deck() -> Vec<Card> {
 
@@ -32,17 +24,19 @@ fn generate_deck() -> Vec<Card> {
 fn generate_hand(game: &mut GameState) -> Vec<Card> {
     let mut x = 0;
     let mut hand = Vec::new();
+
+    game.shuffle_deck();
+
     let mut new_deck = game.deck.clone();
 
 
     while x < 6 {
         x += 1;
 
-        let random_card_index = random_card(&new_deck);
-        let card_hand = new_deck[random_card_index];
+        let card_hand = game.deck[x];
 
         hand.push(card_hand);
-        new_deck.remove(random_card_index);
+        new_deck.remove(x);
 
     }
     game.deck = new_deck;

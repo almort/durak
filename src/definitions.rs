@@ -48,6 +48,16 @@ pub struct Player {
     pub outcome: PlayerOutcome,
 }
 
+impl Player {
+    pub fn print_hand(&self) {
+        println!("{:?}'s hand: {:?}", self.name, self.hand);
+    }
+
+    pub fn check_hand_empty(&self) -> bool {
+        self.hand.is_empty()
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct GameState {
     pub players: Vec<Player>,
@@ -60,5 +70,12 @@ impl GameState {
 
         self.players.shuffle(&mut rng);
         self
+    }
+
+    pub fn shuffle_deck(&mut self) -> Self {
+        let mut rng = thread_rng();
+
+        self.deck.shuffle(&mut rng);
+        self.to_owned()
     }
 }
