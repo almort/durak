@@ -9,7 +9,6 @@ use start::*;
 use crate::game::game_play;
 
 fn main() {
-
     let term = Term::stdout();
 
     term.set_title("Durak");

@@ -1,8 +1,16 @@
 use std::fmt;
+use std::iter::Iterator;
 use rand::{seq::SliceRandom, thread_rng};
+use clap::Parser;
 
+#[derive(Parser)]
+#[command(version, about, long_about = None)]
+pub struct Cli {
+    #[arg(short, long)]
+    pub players: Vec<String>,
+}
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Suit {
     Hearts,
     Diamonds,
@@ -31,7 +39,7 @@ pub enum PlayerOutcome {
     None,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Card(pub u8, pub Suit);
 
 impl fmt::Display for Card {
@@ -56,6 +64,7 @@ impl Player {
     pub fn check_hand_empty(&self) -> bool {
         self.hand.is_empty()
     }
+
 }
 
 #[derive(Debug, Clone)]

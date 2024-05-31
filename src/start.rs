@@ -1,3 +1,7 @@
+use core::panic;
+
+use clap::Parser;
+
 use crate::definitions::*;
 
 fn generate_deck() -> Vec<Card> {
@@ -66,7 +70,14 @@ fn generate_players(names: Vec<String>, game: &mut GameState) -> Vec<Player> {
 }
 
 pub fn game_setup() -> GameState {
-    let names: Vec<String> = ["Toto".to_string(), "Porco".to_string()].to_vec();
+    let cli = Cli::parse();
+
+    //let names: Vec<String> = ["Toto".to_string(), "Porco".to_string()].to_vec();
+    let names: Vec<String> = cli.players;
+
+    if names.is_empty() || names.len() == 1 || names.len() > 3 {
+        panic!("Rispettate le regole: minimo 2 giocatori e massimo 3!")
+    }
 
     let mut game = GameState {
         players: Vec::new(),
