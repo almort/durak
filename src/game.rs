@@ -19,7 +19,7 @@ fn move_choose(hand: &[Card]) -> Card {
     hand[card_number - 1]
 }
 
-fn turn(attacker: Player, defender: Player) {
+fn turn(attacker: &Player, defender: &Player) {
     attacker.print_hand();
 
     let attacker_move = move_choose(&attacker.hand);
@@ -43,9 +43,9 @@ fn turn(attacker: Player, defender: Player) {
 pub fn game_play(game: GameState) {
     let x = 0;
 
-    let attacker = game.players.get(x).unwrap().to_owned();
+    let attacker = game.players.get(x).unwrap();
 
-    let defender = game.players.get(x + 1).unwrap().to_owned();
+    let defender = game.players.get(x + 1).unwrap();
 
     println!("The fricking attacker man: {:?}", &attacker);
     println!("The fricking defender man: {:?}", &defender);
